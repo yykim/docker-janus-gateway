@@ -1,0 +1,8 @@
+hello world: start
+
+debug_level = ${DEBUG_LEVEL} # hello
+admin_secret = ${ADMIN_SECRET} # world
+${RECORDINGS_TMP_EXT_CONFIG}
+
+hello world: end
+

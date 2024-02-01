@@ -25,7 +25,7 @@ RUN apt-get install -y \
     libtool \
     automake \
     sudo make git doxygen graphviz cmake \
-    curl wget lsof vim openssh-server tcpdump gstreamer1.0-tools
+    curl wget lsof vim tcpdump gstreamer1.0-tools
 
 # libnice
 RUN cd ${BUILD_FOLDER} \
@@ -61,7 +61,7 @@ RUN cd ${BUILD_FOLDER} \
   && git checkout v4.3-stable \
   && mkdir build \
   && cd build \
-  && cmake -DLWS_MAX_SMP=1 -DLWS_WITHOUT_EXTENSIONS=0 -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_C_FLAGS="-fpic" .. \
+  && cmake -DLWS_MAX_SMP=1 -DLWS_WITHOUT_EXTENSIONS=0 -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_C_FLAGS="-fpic" -DLWS_IPV6="ON" .. \
   && make && sudo make install
 
 # rabbitmq
@@ -75,33 +75,46 @@ RUN cd ${BUILD_FOLDER} \
   && make && sudo make install
 
 ## janus if build use --enable-post-processing
-RUN apt-get update -y && apt-get install libavutil56 libavcodec58 libavformat58 libavutil-dev libavcodec-dev libavformat-dev -y
+RUN apt-get update -y && apt-get install -y libavutil56 libavcodec58 libavformat58 libavutil-dev libavcodec-dev libavformat-dev
 
 # janus
-RUN cd ${BUILD_FOLDER} && git clone https://github.com/meetecho/janus-gateway.git && \
-    cd janus-gateway && \
-    sh autogen.sh &&  \
-    ./configure --prefix=/usr/local \
+RUN cd ${BUILD_FOLDER} && git clone https://github.com/meetecho/janus-gateway.git \
+  && cd janus-gateway \
+  && sh autogen.sh \
+  && ./configure --prefix=/usr/local \
     --enable-post-processing \
     --enable-docs \
     --disable-mqtt \
     --disable-nanomsg \
-    --disable-unix-sockets \
+    --disable-gelf \
     --disable-mqtt-event-handler \
     --disable-nanomsg-event-handler \
     --disable-gelf-event-handler \
-    && make && make install && make configs
+  && make && make install && make configs
 
-#FFmpeg install
+# default janus looger directory
+RUN mkdir -p /usr/local/lib/janus/loggers
+
+# FFmpeg install
 RUN apt update -y && sudo apt install  -y ffmpeg && ffmpeg -version
 
 # nginx
 RUN apt-get update -y && apt-get install -y nginx
-COPY nginx.conf /etc/nginx/nginx.conf
+# COPY ./config/nginx.conf /etc/nginx/nginx.conf
 
-RUN apt-get clean && \
-	rm -rf /var/lib/apt/lists/*
+# clean
+RUN rm -rf ${BUILD_FOLDER}
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 SHELL ["/bin/bash", "-l", "-euxo", "pipefail", "-c"]
 
-CMD nginx && janus
+# nginx: 8086, jauns http: 8088, janus websocket: 8188
+EXPOSE 8086 8088 8188
+
+# entrypoint 스크립트를 이미지에 추가
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+CMD nginx && /usr/local/bin/janus -F /usr/local/etc/janus
+
+ENTRYPOINT ["/entrypoint.sh"]

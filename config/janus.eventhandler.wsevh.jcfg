@@ -4,7 +4,8 @@
 # the WebSockets server which will receive the requests.
 
 general: {
-	enabled = false		# By default the module is not enabled
+	enabled = true
+	#enabled = false		# By default the module is not enabled
 	events = "all"		# Comma separated list of the events mask you're interested
 						# in. Valid values are none, sessions, handles, jsep, webrtc,
 						# media, plugins, transports, core, external and all. By
@@ -49,5 +50,6 @@ general: {
 						# the libwebsockets debugging level as a comma separated list of things
 						# to debug, supported values: err, warn, notice, info, debug, parser,
 						# header, ext, client, latency, user, count (plus 'none' and 'all')
+	ws_logging = "all"
 	#ws_logging = "err,warn"
 }

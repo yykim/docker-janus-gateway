@@ -4,28 +4,32 @@
 # and, if needed, shared apisecret and/or token authentication mechanism
 # between application(s) and Janus.
 general: {
-	configs_folder = "/usr/local/etc/janus"			          # Configuration files folder
-	plugins_folder = "/usr/local/lib/janus/plugins"			  # Plugins folder
+	configs_folder = "/usr/local/etc/janus"			# Configuration files folder
+	plugins_folder = "/usr/local/lib/janus/plugins"			# Plugins folder
 	transports_folder = "/usr/local/lib/janus/transports"	# Transports folder
-	events_folder = "/usr/local/lib/janus/events"			    # Event handlers folder
-	loggers_folder = "/usr/local/lib/janus/loggers"			  # External loggers folder
+	events_folder = "/usr/local/lib/janus/events"			# Event handlers folder
+	loggers_folder = "/usr/local/lib/janus/loggers"			# External loggers folder
 
 		# The next settings configure logging
-	log_to_stdout = true          # Whether the Janus output should be written
-											          # to stdout or not (default=true)
-	log_to_file = "/usr/local/lib/janus/loggers/janus.log"		# Whether to use a log file or not
-	debug_level = ${DEBUG_LEVEL}							                # Debug/logging level, valid values are 0-7
-	#debug_timestamps = true			                            # Whether to show a timestamp for each log line
-	debug_colors = false                                      # Whether colors should be disabled in the log
-	#debug_locks = true						                            # Whether to enable debugging of locks (very verbose!)
-	#log_prefix = "[janus] "				                          # In case you want log lines to be prefixed by some
+	log_to_stdout = true
+	#log_to_stdout = false					# Whether the Janus output should be written
+											# to stdout or not (default=true)
+	log_to_file = "/usr/local/lib/janus/loggers/janus.log"
+	#log_to_file = "/path/to/janus.log"		# Whether to use a log file or not
+	debug_level = 7
+	#debug_level = 4							# Debug/logging level, valid values are 0-7
+	#debug_timestamps = true				# Whether to show a timestamp for each log line
+	#debug_colors = false					# Whether colors should be disabled in the log
+	#debug_locks = true						# Whether to enable debugging of locks (very verbose!)
+	log_prefix = "[janus] "
+	#log_prefix = "[janus] "				# In case you want log lines to be prefixed by some
 											# custom text, you can use the 'log_prefix' property.
 											# It supports terminal colors, meaning something like
 											# "[\x1b[32mjanus\x1b[0m] " would show a green "janus"
 											# string in square brackets (assuming debug_colors=true).
 
 		# This is what you configure if you want to launch Janus as a daemon
-	#daemonize = false						# Whether Janus should run as a daemon
+	#daemonize = true						# Whether Janus should run as a daemon
 											# or not (default=run in foreground)
 	#pid_file = "/path/to/janus.pid"		# PID file to create when Janus has been
 											# started, and to destroy at shutdown
@@ -47,16 +51,15 @@ general: {
 									# without this, the Admin API MUST
 									# be enabled, as tokens are added and removed
 									# through messages sent there.
-	admin_secret = ${ADMIN_SECRET}  # "janusoverlord"	
-                                  # String that all Janus requests must contain
-                                  # to be accepted/authorized by the admin/monitor.
-                                  # only needed if you enabled the admin API
-                                  # in any of the available transports.
+	admin_secret = "janusoverlord"	# String that all Janus requests must contain
+									# to be accepted/authorized by the admin/monitor.
+									# only needed if you enabled the admin API
+									# in any of the available transports.
 
 		# Generic settings
-	#interface = "1.2.3.4"			  # Interface to use (will be used in SDP)
-	#server_name = ${SERVER_NAME} # "MyJanusInstance"# Public name of this Janus instance
-									              # as it will appear in an info request
+	#interface = "1.2.3.4"			# Interface to use (will be used in SDP)
+	#server_name = "MyJanusInstance"# Public name of this Janus instance
+									# as it will appear in an info request
 	#session_timeout = 60			# How long (in seconds) we should wait before
 									# deciding a Janus session has timed out. A
 									# session times out when no request is received
@@ -79,6 +82,7 @@ general: {
 									# Setting this to 0 will disable the timeout
 									# mechanism, and sessions will be destroyed immediately
 									# if the transport is gone.
+	recordings_tmp_ext = "/usr/local/lib/janus/recordings/tmp"
 	#recordings_tmp_ext = "tmp"		# The extension for recordings, in Janus, is
 									# .mjr, a custom format we devised ourselves.
 									# By default, we save to .mjr directly. If you'd
@@ -228,6 +232,7 @@ media: {
 	#ipv6 = true
 	#ipv6_linklocal = true
 	#min_nack_queue = 500
+	rtp_port_range = "20000-40000"
 	#rtp_port_range = "20000-40000"
 	#dtls_mtu = 1200
 	#no_media_timer = 1
@@ -285,8 +290,11 @@ media: {
 # be used for gathering candidates, and enable or disable the
 # internal libnice debugging, if needed.
 nat: {
+	stun_server = "stun.l.google.com"
 	#stun_server = "stun.voip.eutelia.it"
+	stun_port = 19302
 	#stun_port = 3478
+
 	nice_debug = false
 	#full_trickle = true
 	#ice_nomination = "regular"

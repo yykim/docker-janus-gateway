@@ -5,13 +5,16 @@ services:
     container_name: janus-gateway
     ports:
       - '8086:8086' # nginx
-      - '8088:8088' # janus http
+      - '7088:7088' # janus http admin api
+      - '8088:8088' # janus http api
       - '8188:8188' # janus websocket
     # environment:
     # network_mode: 'host'
     volumes:
-      # - './config/janus.transport.http.jcfg:/usr/local/etc/janus/janus.transport.http.jcfg'
-      # - './config/janus.jcfg:/usr/local/etc/janus/janus.jcfg'
-      # - './config/janus.eventhandler.sampleevh.jcfg:/usr/local/etc/janus/janus.eventhandler.sampleevh.jcfg'
       - './config/nginx.conf:/etc/nginx/nginx.conf'
+      - './config/janus.jcfg:/usr/local/etc/janus/janus.jcfg'
+      - './config/janus.transport.http.jcfg:/usr/local/etc/janus/janus.transport.http.jcfg'
+      - './config/janus.transport.websockets.jcfg:/usr/local/etc/janus/janus.transport.websockets.jcfg'
+      - './config/janus.eventhandler.sampleevh.jcfg:/usr/local/etc/janus/janus.eventhandler.sampleevh.jcfg'
+      - './config/janus.eventhandler.wsevh.jcfg:/usr/local/etc/janus/janus.eventhandler.wsevh.jcfg'
 # docker run -it -p 8086:8086 -p 8188:8188 -p 8088:8088 yykim/janus-gateway

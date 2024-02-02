@@ -94,6 +94,8 @@ RUN cd ${BUILD_FOLDER} && git clone https://github.com/meetecho/janus-gateway.gi
 
 # default janus looger directory
 RUN mkdir -p /usr/local/lib/janus/loggers
+# recording tmp directory
+RUN mkdir -p /usr/local/lib/janus/recordings/tmp
 
 # FFmpeg install
 RUN apt update -y && sudo apt install  -y ffmpeg && ffmpeg -version

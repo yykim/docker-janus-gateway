@@ -1,12 +1,13 @@
 # WebSockets stuff: whether they should be enabled, which ports they
 # should use, and so on.
 general: {
+	events = true
 	#events = true					# Whether to notify event handlers about transport events (default=true)
+
 	json = "indented"				# Whether the JSON messages should be indented (default),
 									# plain (no indentation) or compact (no indentation and no spaces)
 	#pingpong_trigger = 30			# After how many seconds of idle, a PING should be sent
 	#pingpong_timeout = 10			# After how many seconds of not getting a PONG, a timeout should be detected
-
 	ws = true						# Whether to enable the WebSockets API
 	ws_port = 8188					# WebSockets server port
 	#ws_interface = "eth0"			# Whether we should bind this server to a specific interface only
@@ -17,9 +18,11 @@ general: {
 	#wss_interface = "eth0"			# Whether we should bind this server to a specific interface only
 	#wss_ip = "192.168.0.1"			# Whether we should bind this server to a specific IP address only
 	#wss_unix = "/run/wss.sock"		# Use WebSocket server over UNIX socket instead of TCP
+  ws_logging = "all"
 	#ws_logging = "err,warn"		# libwebsockets debugging level as a comma separated list of things
 									# to debug, supported values: err, warn, notice, info, debug, parser,
 									# header, ext, client, latency, user, count (plus 'none' and 'all')
+
 	#ws_acl = "127.,192.168.0."		# Only allow requests coming from this comma separated list of addresses
 	#ws_acl_forwarded = true		# Whether we should check the X-Forwarded-For header too for the ACL
 									# (default=false, since without a proxy in the middle this could be abused)
@@ -30,7 +33,8 @@ general: {
 # Admin API messaging. Notice that by default the Admin API support via
 # WebSockets is disabled.
 admin: {
-	admin_ws = false					# Whether to enable the Admin API WebSockets API
+	admin_ws = true
+	#admin_ws = false					# Whether to enable the Admin API WebSockets API
 	admin_ws_port = 7188				# Admin API WebSockets server port, if enabled
 	#admin_ws_interface = "eth0"		# Whether we should bind this server to a specific interface only
 	#admin_ws_ip = "192.168.0.1"		# Whether we should bind this server to a specific IP address only

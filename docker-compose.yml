@@ -8,6 +8,8 @@ services:
       - '7088:7088' # janus http admin api
       - '8088:8088' # janus http api
       - '8188:8188' # janus websocket
+      - '7188:7188' # janus websocket admin
+      - '20000-20010:20000-20010/udp' # rtp port range
     # environment:
     # network_mode: 'host'
     volumes:

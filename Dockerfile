@@ -31,7 +31,7 @@ RUN apt-get install -y \
 RUN cd ${BUILD_FOLDER} \
   && apt-get remove -y libnice-dev libnice10 \
   && apt-get update -y && apt-get install -y python3-pip ninja-build \
-  && pip3 install meson \
+  && sudo pip3 install meson \
   && git clone https://gitlab.freedesktop.org/libnice/libnice \
   && cd libnice \
   && meson --prefix=/usr build \
@@ -84,6 +84,7 @@ RUN cd ${BUILD_FOLDER} && git clone https://github.com/meetecho/janus-gateway.gi
   && ./configure --prefix=/usr/local \
     --enable-post-processing \
     --enable-docs \
+    --disable-data-channels \
     --disable-mqtt \
     --disable-nanomsg \
     --disable-gelf \

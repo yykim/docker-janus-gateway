@@ -1,0 +1,11 @@
+nginx           : 8086
+http-admin-api  : 7088
+https-admin-api : 7889
+http-api        : 8088
+https-api       : 8089
+ws-api          : 8188
+wss-api         : 8989
+ws-admin-api    : 7989
+wss-admin-api   : 7188
+rtp             : 20000-20200
+

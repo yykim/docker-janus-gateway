@@ -1,24 +1,23 @@
 # WebSockets stuff: whether they should be enabled, which ports they
 # should use, and so on.
 general: {
-	events = true
 	#events = true					# Whether to notify event handlers about transport events (default=true)
-
 	json = "indented"				# Whether the JSON messages should be indented (default),
 									# plain (no indentation) or compact (no indentation and no spaces)
 	#pingpong_trigger = 30			# After how many seconds of idle, a PING should be sent
 	#pingpong_timeout = 10			# After how many seconds of not getting a PONG, a timeout should be detected
+
 	ws = true						# Whether to enable the WebSockets API
 	ws_port = 8188					# WebSockets server port
 	#ws_interface = "eth0"			# Whether we should bind this server to a specific interface only
 	#ws_ip = "192.168.0.1"			# Whether we should bind this server to a specific IP address only
 	#ws_unix = "/run/ws.sock"		# Use WebSocket server over UNIX socket instead of TCP
-	wss = false						# Whether to enable secure WebSockets
-	#wss_port = 8989				# WebSockets server secure port, if enabled
+	wss = true						# Whether to enable secure WebSockets
+	wss_port = 8989				# WebSockets server secure port, if enabled
 	#wss_interface = "eth0"			# Whether we should bind this server to a specific interface only
 	#wss_ip = "192.168.0.1"			# Whether we should bind this server to a specific IP address only
 	#wss_unix = "/run/wss.sock"		# Use WebSocket server over UNIX socket instead of TCP
-	ws_logging = "err,warn"		    # libwebsockets debugging level as a comma separated list of things
+	ws_logging = "all"				# libwebsockets debugging level as a comma separated list of things
 									# to debug, supported values: err, warn, notice, info, debug, parser,
 									# header, ext, client, latency, user, count (plus 'none' and 'all')
 
@@ -32,14 +31,13 @@ general: {
 # Admin API messaging. Notice that by default the Admin API support via
 # WebSockets is disabled.
 admin: {
-	admin_ws = true
-	#admin_ws = false					# Whether to enable the Admin API WebSockets API
+	admin_ws = true						# Whether to enable the Admin API WebSockets API
 	admin_ws_port = 7188				# Admin API WebSockets server port, if enabled
 	#admin_ws_interface = "eth0"		# Whether we should bind this server to a specific interface only
 	#admin_ws_ip = "192.168.0.1"		# Whether we should bind this server to a specific IP address only
 	#admin_ws_unix = "/run/aws.sock"	# Use WebSocket server over UNIX socket instead of TCP
-	admin_wss = false					# Whether to enable the Admin API secure WebSockets
-	#admin_wss_port = 7989				# Admin API WebSockets server secure port, if enabled
+	admin_wss = true					# Whether to enable the Admin API secure WebSockets
+	admin_wss_port = 7989				# Admin API WebSockets server secure port, if enabled
 	#admin_wss_interface = "eth0"		# Whether we should bind this server to a specific interface only
 	#admin_wss_ip = "192.168.0.1"		# Whether we should bind this server to a specific IP address only
 	#admin_wss_unix = "/run/awss.sock"	# Use WebSocket server over UNIX socket instead of TCP
@@ -68,8 +66,8 @@ cors: {
 # 'ciphers' property accordingly (no limitation by default).
 # Examples of recommended cipher strings at https://cheatsheetseries.owasp.org/cheatsheets/TLS_Cipher_String_Cheat_Sheet.html
 certificates: {
-	#cert_pem = "/path/to/cert.pem"
-	#cert_key = "/path/to/key.pem"
+	cert_pem = "/usr/local/etc/janus/cert.pem"
+	cert_key = "/usr/local/etc/janus/key.pem"
 	#cert_pwd = "secretpassphrase"
 	#ciphers = "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256"
 }

@@ -1,7 +1,7 @@
 FROM ubuntu:22.04
 
-ENV DEBIAN_FRONTEND noninteractive
-ENV BUILD_FOLDER /tmp/build
+ENV DEBIAN_FRONTEND=noninteractive
+ENV BUILD_FOLDER=/tmp/build
 
 RUN mkdir -p ${BUILD_FOLDER}
 
@@ -80,6 +80,7 @@ RUN apt-get update -y && apt-get install -y libavutil56 libavcodec58 libavformat
 # janus
 RUN cd ${BUILD_FOLDER} && git clone https://github.com/meetecho/janus-gateway.git \
   && cd janus-gateway \
+  && git checkout tags/v1.2.3 \
   && sh autogen.sh \
   && ./configure --prefix=/usr/local \
     --enable-post-processing \
@@ -97,6 +98,7 @@ RUN cd ${BUILD_FOLDER} && git clone https://github.com/meetecho/janus-gateway.gi
 RUN mkdir -p /usr/local/lib/janus/loggers
 # recording tmp directory
 RUN mkdir -p /usr/local/lib/janus/recordings/tmp
+RUN mkdir -p /var/log/janus
 
 # FFmpeg install
 RUN apt update -y && sudo apt install  -y ffmpeg && ffmpeg -version
